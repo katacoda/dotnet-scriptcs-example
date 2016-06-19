@@ -1,10 +1,11 @@
 using System.Dynamic;
 
-public class TestController : ApiController
+public class MachineController : ApiController
 {
+  // *:8080/api/machine
   public dynamic Get() {
     dynamic obj = new ExpandoObject();
-    obj.message = "Hello from Web Api";
+    obj.message = "Hello from Web Api via ScriptCS! Processed by " + System.Environment.MachineName;
     return obj;
   }
 }
@@ -12,7 +13,7 @@ public class TestController : ApiController
 var webapi = Require<WebApi>();
 
 var server = webapi.
-Configure(typeof(TestController)).
+Configure(typeof(MachineController)).
 UseJsonOnly().
 Start("http://+:8080");
 
