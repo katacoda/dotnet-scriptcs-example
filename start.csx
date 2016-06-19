@@ -1,13 +1,21 @@
-public class TestController : ApiController {
-  public string Get() {
-    return "Hello world!";
+using System.Dynamic;
+
+public class TestController : ApiController
+{
+  public dynamic Get() {
+    dynamic obj = new ExpandoObject();
+    obj.message = "Hello from Web Api";
+    return obj;
   }
 }
 
-var webApi = Require<WebApi>();
-var server = webApi.CreateServer("http://localhost:8080");
-server.OpenAsync().Wait();
+var webapi = Require<WebApi>();
+
+var server = webapi.
+Configure(typeof(TestController)).
+UseJsonOnly().
+Start("http://+:8080");
 
 Console.WriteLine("Listening...");
-Console.ReadKey();
-server.CloseAsync().Wait();
+Console.ReadLine();
+server.Dispose();
